@@ -59,7 +59,7 @@ class _KlotskiState extends State<Klotski> {
   void initState() {
     super.initState();
     stopWatchTimer.setPresetTime(mSec: 0);
-    randomizeState2();
+    randomizeState();
   }
 
   @override
@@ -274,7 +274,7 @@ class _KlotskiState extends State<Klotski> {
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 23,
-                      fontFamily: 'BalooBhai',
+                      fontFamily: 'rifu',
                     ),
                   );
                 }),
@@ -283,7 +283,7 @@ class _KlotskiState extends State<Klotski> {
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 23,
-                fontFamily: 'BalooBhai',
+                fontFamily: 'rifu',
               ),
             ),
           ],
@@ -293,18 +293,19 @@ class _KlotskiState extends State<Klotski> {
   }
 
   // 游戏说明
-  Widget getInfo(String content) {
+  Widget getInfo(String content, [bool textAlign = false]) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-        child: Text(
-          content,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontFamily: 'BalooBhai',
-          ),
-          textAlign: TextAlign.justify,
-        ));
+      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+      child: Text(
+        content,
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+          fontFamily: 'BalooBhai',
+        ),
+        textAlign: textAlign ? TextAlign.center : TextAlign.start,
+      ),
+    );
   }
 
   // 游戏模式
@@ -392,11 +393,12 @@ class _KlotskiState extends State<Klotski> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             getInfo(
                                 '华容道是一款益智游戏，游戏目标是将编号为1-8或图片的方块移动到正确的位置，最终将编号为0的方块移动到最下方的中间位置。'),
                             const SizedBox(height: 10),
-                            getInfo('游戏规则：'),
+                            getInfo('游戏规则：', true),
                             getInfo('1. 点击开始游戏按钮开始游戏，点击结束游戏按钮结束游戏。'),
                             getInfo('2. 点击刷新棋盘按钮可以重新开始游戏。'),
                             getInfo(
@@ -405,7 +407,7 @@ class _KlotskiState extends State<Klotski> {
                             getInfo('5. 游戏结束后会弹出胜利提示框，点击确定按钮可以重新开始游戏。'),
                             getInfo('6. 点击图片模式按钮可以切换图片模式和数字模式。'),
                             getInfo('7. 当所有方块移动到正确的位置时，游戏胜利。可以参考上面的示例图'),
-                            getInfo('祝你游戏愉快！')
+                            getInfo('祝你游戏愉快！', true)
                           ],
                         ),
                       ),
