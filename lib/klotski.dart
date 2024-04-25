@@ -13,14 +13,16 @@ class Klotski extends StatefulWidget {
 class _KlotskiState extends State<Klotski> {
   double phoneWidth = 0.0;
   double phoneHeight = 0.0;
-  DateTime startTime = DateTime.now();
   int steps = 0;
-  final stopWatchTimer = StopWatchTimer(mode: StopWatchMode.countUp);
   bool isGameStarted = false;
   bool isWon = false;
-  final Dio dio = Dio();
   bool isGraph = true;
-  bool isAI = false;
+  bool isLoading = false;
+
+  DateTime startTime = DateTime.now();
+
+  final Dio dio = Dio();
+  final stopWatchTimer = StopWatchTimer(mode: StopWatchMode.countUp);
 
   // 游戏状态
   List<List<int>> state = [
@@ -36,6 +38,7 @@ class _KlotskiState extends State<Klotski> {
     [7, 8, 0]
   ];
 
+  // 块的颜色
   List<Color> blockColors = const [
     Color.fromARGB(255, 255, 255, 255),
     Color.fromARGB(255, 255, 239, 151),
@@ -48,24 +51,18 @@ class _KlotskiState extends State<Klotski> {
     Color.fromARGB(255, 255, 195, 227),
   ];
 
-  // 请求AI结果
-  Future<List<List<int>>> getAIResult() async {
-    final Response response = await dio.get('http://');
-
-    return [];
-  }
-
   @override
   void initState() {
     super.initState();
     stopWatchTimer.setPresetTime(mSec: 0);
     randomizeState();
+    // state = winState;
   }
 
   @override
   void dispose() async {
     super.dispose();
-    await stopWatchTimer.dispose(); // Need to call dispose function.
+    await stopWatchTimer.dispose();
   }
 
   // 随机打乱华容道
@@ -98,7 +95,6 @@ class _KlotskiState extends State<Klotski> {
     }
   }
 
-  // 固定华容道
   void randomizeState2() {
     state = [
       [1, 2, 3],
@@ -141,10 +137,6 @@ class _KlotskiState extends State<Klotski> {
                 onPanUpdate: (details) {
                   // 游戏未开始不能操作
                   if (!isGameStarted) {
-                    return;
-                  }
-                  // AI自动游玩中不能操作
-                  if (isAI) {
                     return;
                   }
                   if (state[i][j] == 0) {
@@ -190,6 +182,7 @@ class _KlotskiState extends State<Klotski> {
                       context: context,
                       dialogType: DialogType.success,
                       animType: AnimType.topSlide,
+                      btnOkText: '再来一局',
                       title: '恭喜你！你胜利了！',
                       desc:
                           '用时: ${StopWatchTimer.getDisplayTime(stopWatchTimer.rawTime.value, hours: false)}\n步数: $steps',
@@ -487,6 +480,7 @@ class _KlotskiState extends State<Klotski> {
                     if (!isGameStarted) {
                       stopWatchTimer.onStartTimer();
                       isGameStarted = true;
+                      // randomizeState();
                     }
                     // 结束游戏
                     else {
@@ -542,61 +536,6 @@ class _KlotskiState extends State<Klotski> {
 
                           Text(
                             isGameStarted ? '结束游戏' : '开始游戏',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontFamily: 'rifu',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        // AI游玩
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: SizedBox(
-            width: phoneWidth * 0.8,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                // 刷新棋盘按钮
-                GestureDetector(
-                  onTap: () {
-                    isAI = !isAI;
-                    setState(() {});
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isAI
-                          ? isGameStarted
-                              ? const Color.fromARGB(158, 105, 255, 172)
-                              : const Color.fromARGB(197, 140, 203, 255)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/AI.png',
-                            width: 20,
-                            height: 20,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            isAI
-                                ? isGameStarted
-                                    ? 'AI自动游玩中...'
-                                    : '已开启AI游玩'
-                                : '开启AI游玩',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,

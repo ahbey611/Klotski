@@ -1,12 +1,16 @@
 # klotski 
 
-**AI数字-图片3*3华容道**
+**数字-图片3*3华容道**
 
-下载连接 https://cloud.tsinghua.edu.cn/f/7d2d3e630d384960a9ba/
+下载连接 https://cloud.tsinghua.edu.cn/f/5c4c385a51ad469a89f1/
 
-<img src="./assets/readme/klotskiPicture.png" style="zoom:67%;" />
+##### 图片模式
 
-<img src="./assets/readme/klotskiNumber.png" style="zoom:67%;" />
+<img src="./assets/readme/klotskiPicture.png" style="zoom: 20%;" />
+
+##### 数字模式
+
+<img src="./assets/readme/klotskiNumber.png" style="zoom: 20%;" />
 
 ## bug解决
 
